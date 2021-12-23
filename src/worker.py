@@ -10,7 +10,7 @@ app.conf.broker_url = os.environ.get("CELERY_BROKER_URL", "redis://localhost:637
 app.conf.result_backend = os.environ.get("CELERY_RESULT_BACKEND", "redis://localhost:6379")
 
 
-@app.task(name="create_task")
+@app.task(name="create_task", bind=True)
 def create_task(task_type):
     time.sleep(int(task_type) * 10)
     return True
