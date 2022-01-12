@@ -8,10 +8,11 @@ from celery import Celery
 app = Celery(__name__)
 app.conf.broker_url = os.environ.get("CELERY_BROKER_URL", "redis://localhost:6379")
 app.conf.result_backend = os.environ.get("CELERY_RESULT_BACKEND", "redis://localhost:6379")
-
+app.conf.task_track_started = True
+app.conf.task_ignore_result = True
 
 @app.task(name="create_task", bind=True)
-def create_task(task_type):
+def create_task(self, task_type):
     time.sleep(int(task_type) * 10)
     return True
 
