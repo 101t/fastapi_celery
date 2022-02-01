@@ -23,6 +23,7 @@ def run_task(payload=Body(...)):
 
 @app.get("/tasks/{task_id}")
 def get_status(task_id):
+    # see this answer: https://stackoverflow.com/a/30760142/1756032
     task_result = create_task.AsyncResult(task_id, app=celery_app)
     print(task_result)
     result = {
