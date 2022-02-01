@@ -23,7 +23,7 @@ def run_task(payload=Body(...)):
 
 @app.get("/tasks/{task_id}")
 def get_status(task_id):
-    task_result = create_task.AsyncResult(task_id)
+    task_result = create_task.AsyncResult(task_id, app=app)
     print(task_result)
     result = {
         "task_id": task_result.task_id,
