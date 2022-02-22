@@ -15,7 +15,8 @@ services:
             - redis
     worker:
         build: ./src
-        command: celery worker --app=worker.celery --loglevel=info --logfile=logs/celery.log
+        # command: celery worker --app=worker.celery --loglevel=info --logfile=logs/celery.log
+        command: celery --app=worker worker --loglevel=info
         volumes:
             - ./src:/usr/src/app
         environment:

@@ -27,16 +27,30 @@ function getStatus(taskID) {
         })
         .then(response => response.json())
         .then(res => {
-            console.log(res)
+            //console.log(res)
+            var status_css = "text-warning";
+            if (res.task_status == "SUCCESS") {
+                status_css = "text-success";
+            } else if (res.task_status == "FAILURE") {
+                status_css = "text-danger";
+            } else if (res.task_status == "RETRY") {
+                status_css = "text-info";
+            }
             const html = `
-            <tr>
+            <tr id="${res.task_id}">
                 <td>${taskID}</td>
-                <td>${res.task_status}</td>
-                <td>${res.task_result}</td>
+                <td class="${status_css}">${res.task_status}</td>
+                <td>${res.ready}</td>
             </tr>`;
-            const newRow = document.getElementById('tasks').insertRow(0);
-            newRow.innerHTML = html;
-
+            console.log(document.getElementById(taskID))
+            if(!!document.getElementById(taskID)) {
+                // document.getElementById(taskID).replaceWith(html);
+                document.getElementById(taskID).remove()
+            }
+            document.getElementById('tasks').innerHTML = html + document.getElementById('tasks').innerHTML;
+            // const newRow = document.getElementById('tasks').insertRow(0);
+            //       newRow.innerHTML = html;
+            
             const taskStatus = res.task_status;
             if (taskStatus === 'SUCCESS' || taskStatus === 'FAILURE') return false;
             setTimeout(function() {
